@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>always — Exclusive Experience</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    :root{
+      --bg:#050505;
+      --card:#0d0d0d;
+      --soft:#141414;
+      --line:rgba(255,255,255,.08);
+      --text:#f4f1ed;
+      --muted:#9e9e9e;
+      --orange:#ff7a45;
+      --rose:#7a1d2c;
+      --glow:rgba(255,122,69,.25);
+    }
+
+    body{
+      background:var(--bg);
+      color:var(--text);
+      font-family:'Inter',sans-serif;
+      overflow-x:hidden;
+    }
+
+    /* BACKGROUND */
+
+    .bg{
+      position:fixed;
+      inset:0;
+      background:
+      radial-gradient(circle at top right, rgba(255,122,69,.12), transparent 30%),
+      radial-gradient(circle at bottom left, rgba(122,29,44,.2), transparent 30%),
+      #050505;
+      z-index:-5;
+    }
+
+    .grain{
+      position:fixed;
+      inset:0;
+      opacity:.05;
+      background:url('https://grainy-gradients.vercel.app/noise.svg');
+      z-index:-4;
+      pointer-events:none;
+    }
+
+    .glow1,
+    .glow2{
+      position:fixed;
+      width:500px;
+      height:500px;
+      border-radius:50%;
+      filter:blur(120px);
+      z-index:-3;
+    }
+
+    .glow1{
+      background:rgba(255,122,69,.08);
+      top:-150px;
+      right:-100px;
+      animation:float 8s ease-in-out infinite;
+    }
+
+    .glow2{
+      background:rgba(122,29,44,.12);
+      bottom:-200px;
+      left:-100px;
+      animation:float 12s ease-in-out infinite;
+    }
+
+    @keyframes float{
+      0%{transform:translateY(0px);}
+      50%{transform:translateY(-25px);}
+      100%{transform:translateY(0px);}
+    }
+
+    /* HERO */
+
+    .hero{
+      min-height:100vh;
+      padding:60px 8%;
+      display:flex;
+      align-items:center;
+    }
+
+    .hero-wrap{
+      width:100%;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:80px;
+      align-items:center;
+    }
+
+    .cover-wrap{
+      position:relative;
+    }
+
+    .cover{
+      width:100%;
+      border-radius:30px;
+      overflow:hidden;
+      position:relative;
+      box-shadow:
+      0 0 100px rgba(255,122,69,.12),
+      0 0 200px rgba(255,122,69,.06);
+    }
+
+    .cover img{
+      width:100%;
+      display:block;
+    }
+
+    .cover::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to top, rgba(0,0,0,.45), transparent 50%);
+    }
+
+    .pulse{
+      position:absolute;
+      inset:-20px;
+      border-radius:40px;
+      border:1px solid rgba(255,122,69,.15);
+      animation:pulse 3s infinite;
+    }
+
+    @keyframes pulse{
+      0%{
+        transform:scale(1);
+        opacity:1;
+      }
+      100%{
+        transform:scale(1.03);
+        opacity:0;
+      }
+    }
+
+    /* INFO */
+
+    .title{
+      font-family:'Great Vibes',cursive;
+      font-size:9rem;
+      line-height:.9;
+      font-weight:400;
+    }
+
+    .tag{
+      margin-top:20px;
+      text-transform:uppercase;
+      letter-spacing:4px;
+      color:#888;
+      font-size:.9rem;
+    }
+
+    .description{
+      margin-top:40px;
+      max-width:520px;
+      line-height:1.9;
+      color:#b6b6b6;
+      font-size:1.05rem;
+    }
+
+    /* PLAYER */
+
+    .player{
+      margin-top:50px;
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--line);
+      border-radius:30px;
+      padding:30px;
+      backdrop-filter:blur(25px);
+      box-shadow:0 0 60px rgba(0,0,0,.35);
+    }
+
+    .now-playing{
+      display:flex;
+      align-items:center;
+      gap:20px;
+    }
+
+    .mini-cover{
+      width:90px;
+      height:90px;
+      border-radius:20px;
+      overflow:hidden;
+      flex-shrink:0;
+    }
+
+    .mini-cover img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .track-info h2{
+      font-size:1.4rem;
+      margin-bottom:8px;
+    }
+
+    .track-info p{
+      color:#888;
+    }
+
+    /* PROGRESS */
+
+    .progress-wrap{
+      margin-top:30px;
+    }
+
+    .progress{
+      width:100%;
+      height:6px;
+      border-radius:100px;
+      background:#1b1b1b;
+      overflow:hidden;
+      cursor:pointer;
+    }
+
+    .progress-bar{
+      width:35%;
+      height:100%;
+      background:linear-gradient(to right, var(--orange), #ffb089);
+      border-radius:100px;
+      position:relative;
+    }
+
+    .progress-bar::after{
+      content:'';
+      position:absolute;
+      right:0;
+      top:50%;
+      transform:translateY(-50%);
+      width:14px;
+      height:14px;
+      border-radius:50%;
+      background:white;
+      box-shadow:0 0 20px rgba(255,255,255,.5);
+    }
+
+    .time{
+      margin-top:12px;
+      display:flex;
+      justify-content:space-between;
+      color:#777;
+      font-size:.9rem;
+    }
+
+    /* CONTROLS */
+
+    .controls{
+      margin-top:35px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:20px;
+    }
+
+    .control{
+      width:60px;
+      height:60px;
+      border-radius:50%;
+      background:#111;
+      border:1px solid rgba(255,255,255,.08);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      transition:.3s;
+      font-size:1.2rem;
+    }
+
+    .control:hover{
+      transform:translateY(-4px);
+      border-color:var(--orange);
+      box-shadow:0 0 30px rgba(255,122,69,.2);
+    }
+
+    .play{
+      width:78px;
+      height:78px;
+      background:linear-gradient(135deg,var(--orange),#ff9868);
+      color:white;
+      font-size:1.5rem;
+      box-shadow:0 0 40px rgba(255,122,69,.3);
+    }
+
+    /* VISUALIZER */
+
+    .visualizer{
+      margin-top:35px;
+      height:70px;
+      display:flex;
+      align-items:flex-end;
+      gap:6px;
+    }
+
+    .bar{
+      width:8px;
+      border-radius:20px;
+      background:linear-gradient(to top, var(--orange), #ffd2c1);
+      animation:music 1s infinite ease-in-out;
+    }
+
+    .bar:nth-child(1){height:20px;animation-delay:.1s;}
+    .bar:nth-child(2){height:40px;animation-delay:.2s;}
+    .bar:nth-child(3){height:60px;animation-delay:.3s;}
+    .bar:nth-child(4){height:25px;animation-delay:.4s;}
+    .bar:nth-child(5){height:50px;animation-delay:.5s;}
+    .bar:nth-child(6){height:30px;animation-delay:.6s;}
+    .bar:nth-child(7){height:65px;animation-delay:.7s;}
+    .bar:nth-child(8){height:35px;animation-delay:.8s;}
+
+    @keyframes music{
+      0%{transform:scaleY(.5);}
+      50%{transform:scaleY(1.1);}
+      100%{transform:scaleY(.5);}
+    }
+
+    /* TRACKLIST */
+
+    .tracks{
+      padding:0 8% 120px;
+    }
+
+    .section-title{
+      font-family:'Cormorant Garamond',serif;
+      font-size:4rem;
+      font-weight:300;
+      margin-bottom:50px;
+    }
+
+    .track{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:24px 28px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      transition:.35s;
+      cursor:pointer;
+    }
+
+    .track:hover{
+      background:rgba(255,255,255,.03);
+      border-radius:18px;
+      padding-left:40px;
+    }
+
+    .left{
+      display:flex;
+      align-items:center;
+      gap:25px;
+    }
+
+    .number{
+      color:#666;
+      width:40px;
+    }
+
+    .song{
+      font-size:1.15rem;
+      font-weight:500;
+    }
+
+    .mood{
+      color:#777;
+      margin-top:5px;
+      font-size:.9rem;
+    }
+
+    .duration{
+      color:#888;
+    }
+
+    /* MOBILE */
+
+    @media(max-width:950px){
+
+      .hero-wrap{
+        grid-template-columns:1fr;
+      }
+
+      .title{
+        font-size:5rem;
+      }
+
+      .track{
+        gap:20px;
+      }
+
+      .song{
+        font-size:1rem;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="bg"></div>
+  <div class="grain"></div>
+  <div class="glow1"></div>
+  <div class="glow2"></div>
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="hero-wrap">
+
+      <!-- COVER -->
+
+      <div class="cover-wrap">
+
+        <div class="pulse"></div>
+
+        <div class="cover">
+
+          <!-- REPLACE WITH YOUR COVER -->
+          <img src="cover.jpg" alt="always EP">
+
+        </div>
+
+      </div>
+
+      <!-- INFO -->
+
+      <div>
+
+        <h1 class="title">always</h1>
+
+        <div class="tag">
+          exclusive listening experience
+        </div>
+
+        <p class="description">
+          a story about love that refuses to die.
+          heartbreak, obsession, memories, loyalty,
+          vulnerability and the feeling of still loving
+          someone long after they’re gone.
+        </p>
+
+        <!-- PLAYER -->
+
+        <div class="player">
+
+          <div class="now-playing">
+
+            <div class="mini-cover">
+              <img src="cover.jpg">
+            </div>
+
+            <div class="track-info">
+              <h2>Right Here</h2>
+              <p>from the EP “always”</p>
+            </div>
+
+          </div>
+
+          <!-- PROGRESS -->
+
+          <div class="progress-wrap">
+
+            <div class="progress">
+              <div class="progress-bar"></div>
+            </div>
+
+            <div class="time">
+              <span>1:22</span>
+              <span>3:45</span>
+            </div>
+
+          </div>
+
+          <!-- CONTROLS -->
+
+          <div class="controls">
+
+            <div class="control">⏮</div>
+
+            <div class="control play">▶</div>
+
+            <div class="control">⏭</div>
+
+          </div>
+
+          <!-- VISUALIZER -->
+
+          <div class="visualizer">
+
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- TRACKS -->
+
+  <section class="tracks">
+
+    <h2 class="section-title">the experience</h2>
+
+    <div class="track">
+
+      <div class="left">
+        <div class="number">01</div>
+
+        <div>
+          <div class="song">Memories</div>
+          <div class="mood">late night nostalgia</div>
+        </div>
+      </div>
+
+      <div class="duration">2:01</div>
+
+    </div>
+
+    <div class="track">
+
+      <div class="left">
+        <div class="number">02</div>
+
+        <div>
+          <div class="song">Right Here</div>
+          <div class="mood">devotion & distance</div>
+        </div>
+      </div>
+
+      <div class="duration">3:45</div>
+
+    </div>
+
+    <div class="track">
+
+      <div class="left">
+        <div class="number">03</div>
+
+        <div>
+          <div class="song">Die 4 U</div>
+          <div class="mood">obsession & intensity</div>
+        </div>
+      </div>
+
+      <div class="duration">3:18</div>
+
+    </div>
+
+    <div class="track">
+
+      <div class="left">
+        <div class="number">04</div>
+
+        <div>
+          <div class="song">Too Much</div>
+          <div class="mood">emotional overload</div>
+        </div>
+      </div>
+
+      <div class="duration">3:10</div>
+
+    </div>
+
+    <div class="track">
+
+      <div class="left">
+        <div class="number">05</div>
+
+        <div>
+          <div class="song">Stupid In Love</div>
+          <div class="mood">vulnerable interlude</div>
+        </div>
+      </div>
+
+      <div class="duration">1:55</div>
+
+    </div>
+
+    <div class="track">
+
+      <div class="left">
+        <div class="number">06</div>
+
+        <div>
+          <div class="song">Nginomona</div>
+          <div class="mood">intimate & soulful</div>
+        </div>
+      </div>
+
+      <div class="duration">3:40</div>
+
+    </div>
+
+    <div class="track">
+
+      <div class="left">
+        <div class="number">07</div>
+
+        <div>
+          <div class="song">Unconditional</div>
+          <div class="mood">pure loyalty</div>
+        </div>
+      </div>
+
+      <div class="duration">3:26</div>
+
+    </div>
+
+    <div class="track">
+
+      <div class="left">
+        <div class="number">08</div>
+
+        <div>
+          <div class="song">The Heart</div>
+          <div class="mood">breaking point</div>
+        </div>
+      </div>
+
+      <div class="duration">4:02</div>
+
+    </div>
+
+    <div class="track">
+
+      <div class="left">
+        <div class="number">09</div>
+
+        <div>
+          <div class="song">Better</div>
+          <div class="mood">healing & reflection</div>
+        </div>
+      </div>
+
+      <div class="duration">3:12</div>
+
+    </div>
+
+    <div class="track">
+
+      <div class="left">
+        <div class="number">10</div>
+
+        <div>
+          <div class="song">All 4 U</div>
+          <div class="mood">final confession</div>
+        </div>
+      </div>
+
+      <div class="duration">4:10</div>
+
+    </div>
+
+  </section>
+
+</body>
+</html>
